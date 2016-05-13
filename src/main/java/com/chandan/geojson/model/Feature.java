@@ -22,9 +22,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class Feature<T extends Geometry> extends Geometry {
 
-	private final T geometry;
+	private T geometry;
 
-	private final CommonProperties<T> properties;
+	private CommonProperties<T> properties;
 
 	public Feature(T geometry, CommonProperties<T> properties) {
 		super(GeoJsonModelType.FEATURE);
@@ -53,7 +53,7 @@ public class Feature<T extends Geometry> extends Geometry {
 									NodeProperties.class);
 							feature = new Feature<Point>(point, nodeProperties);
 						} else {
-							feature = new Feature<>(point, null);
+							feature = new Feature<Point>(point, null);
 						}
 
 						break;
@@ -64,7 +64,7 @@ public class Feature<T extends Geometry> extends Geometry {
 									WayProperties.class);
 							feature = new Feature<LineString>(lineString, wayProperties);
 						} else {
-							feature = new Feature<>(lineString, null);
+							feature = new Feature<LineString>(lineString, null);
 						}
 						break;
 					case POLYGON:

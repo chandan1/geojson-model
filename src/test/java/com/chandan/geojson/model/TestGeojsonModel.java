@@ -58,7 +58,7 @@ public class TestGeojsonModel {
 
 	@Test
 	public void testFeaturePointWithoutPropertiesSerde() throws Exception {
-		Feature<Point> ser = new Feature<>(new Point(new Coordinate(77.87, 12.78)), null);
+		Feature<Point> ser = new Feature<Point>(new Point(new Coordinate(77.87, 12.78)), null);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Feature<Point> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<Point>>() {});
 		Assert.assertEquals(ser, de);
