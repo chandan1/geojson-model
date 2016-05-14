@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @JsonFormat(shape = Shape.ARRAY)
-@AllArgsConstructor(suppressConstructorProperties = false)
+@AllArgsConstructor(suppressConstructorProperties = true)
 @Getter
 @Setter
 @NoArgsConstructor

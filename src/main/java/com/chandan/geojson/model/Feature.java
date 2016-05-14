@@ -55,7 +55,6 @@ public class Feature<T extends Geometry> extends Geometry {
 						} else {
 							feature = new Feature<Point>(point, null);
 						}
-
 						break;
 					case LINESTRING:
 						LineString lineString = objectCodec.treeToValue(node.get("geometry"), LineString.class);

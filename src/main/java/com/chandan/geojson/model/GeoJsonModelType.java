@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE, suppressConstructorProperties = false)
+@AllArgsConstructor(access = AccessLevel.PRIVATE, suppressConstructorProperties = true)
 public enum GeoJsonModelType {
 
-	POINT("Point"),LINESTRING("LineString"),POLYGON("Polygon"),GEOMETRY_COLLECTION("GeometryCollection"), FEATURE("Feature"),
+	POINT("Point"),LINESTRING("LineString"),POLYGON("Polygon"),FEATURE_COLLECTION("FeatureCollection"), FEATURE("Feature"),
     MULTI_POLYGON("MultiPolygon");
 	
 	private final String name;

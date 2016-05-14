@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Getter
 @Setter
-@AllArgsConstructor(suppressConstructorProperties = false)
+@AllArgsConstructor(suppressConstructorProperties = true)
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
