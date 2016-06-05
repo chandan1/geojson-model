@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonDeserialize(using = Feature.FeatureDeserializer.class)
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class Feature<T extends Geometry> extends Geometry {
 
 	private T geometry;
@@ -49,8 +48,8 @@ public class Feature<T extends Geometry> extends Geometry {
 					case POINT:
 						Point point = objectCodec.treeToValue(node.get("geometry"), Point.class);
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
-							NodeProperties nodeProperties = objectCodec.treeToValue(node.get("properties"),
-									NodeProperties.class);
+							PointProperties nodeProperties = objectCodec.treeToValue(node.get("properties"),
+									PointProperties.class);
 							feature = new Feature<Point>(point, nodeProperties);
 						} else {
 							feature = new Feature<Point>(point, null);
@@ -59,16 +58,34 @@ public class Feature<T extends Geometry> extends Geometry {
 					case LINESTRING:
 						LineString lineString = objectCodec.treeToValue(node.get("geometry"), LineString.class);
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
-							WayProperties wayProperties = objectCodec.treeToValue(node.get("properties"),
-									WayProperties.class);
+							LineStringProperties wayProperties = objectCodec.treeToValue(node.get("properties"),
+									LineStringProperties.class);
 							feature = new Feature<LineString>(lineString, wayProperties);
 						} else {
 							feature = new Feature<LineString>(lineString, null);
 						}
 						break;
 					case POLYGON:
-						
+						Polygon polygon = objectCodec.treeToValue(node.get("geometry"), Polygon.class);
+						if (node.get("properties") != null && !node.get("properties").isNull()) {
+							PolygonProperties polygonProperties = objectCodec.treeToValue(node.get("properties"),
+									PolygonProperties.class);
+							feature = new Feature<Polygon>(polygon, polygonProperties);
+						} else {
+							feature = new Feature<Polygon>(polygon, null);
+						}
 						break;
+					case MULTI_POLYGON:
+						MultiPolygon multiPolygon = objectCodec.treeToValue(node.get("geometry"), MultiPolygon.class);
+						if (node.get("properties") != null && !node.get("properties").isNull()) {
+							MultiPolygonProperties multiPolygonProperties = objectCodec.treeToValue(node.get("properties"),
+									MultiPolygonProperties.class);
+							feature = new Feature<MultiPolygon>(multiPolygon, multiPolygonProperties);
+						} else {
+							feature = new Feature<MultiPolygon>(multiPolygon, null);
+						}
+						break;
+
 					default:
 						break;
 					}

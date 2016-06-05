@@ -33,7 +33,7 @@ public class TestGeojsonModel {
 	@Test
 	public void testFeatureLinestringSerde() throws Exception {
 		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
-		WayProperties wayProperties = new WayProperties();
+		LineStringProperties wayProperties = new LineStringProperties();
 		wayProperties.setStartNodeId(2);
 		wayProperties.setEndNodeId(3);
 		wayProperties.setBuilding("appartment");
@@ -49,7 +49,7 @@ public class TestGeojsonModel {
 	@Test
 	public void testFeaturePointSerde() throws Exception {
 		Point point = new Point(new Coordinate(77.87, 12.78));
-		NodeProperties nodeProperties = new NodeProperties();
+		PointProperties nodeProperties = new PointProperties();
 		nodeProperties.setOsmId(1);
 		nodeProperties.setName("way");
 		nodeProperties.setAmenity("restaurant");
@@ -80,14 +80,14 @@ public class TestGeojsonModel {
 	public void testFeatureCollectionWithLineStringPointSerdeWithProperties() throws Exception {
 
 		Point point = new Point(new Coordinate(77.87, 12.78));
-		NodeProperties nodeProperties = new NodeProperties();
+		PointProperties nodeProperties = new PointProperties();
 		nodeProperties.setOsmId(1);
 		nodeProperties.setName("way");
 		nodeProperties.setAmenity("restaurant");
 		Feature<Point> serPoint = new Feature<Point>(point, nodeProperties);
 
 		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
-		WayProperties wayProperties = new WayProperties();
+		LineStringProperties wayProperties = new LineStringProperties();
 		wayProperties.setStartNodeId(2);
 		wayProperties.setEndNodeId(3);
 		wayProperties.setBuilding("appartment");
@@ -132,5 +132,106 @@ public class TestGeojsonModel {
 		Assert.assertEquals(GeoJsonModelType.FEATURE_COLLECTION, de.getType());
 		Assert.assertEquals(serPoint, de.getFeatures().get(0));
 		Assert.assertEquals(serLinestring, de.getFeatures().get(1));
+	}
+
+	@Test
+	public void testFeatureCollectionWithPolygonSerdeWithProperties() throws Exception {
+
+		List<List<Coordinate>> coordinates = Arrays.asList(Arrays.asList(
+				new Coordinate(77.87, 12.78),
+				new Coordinate(77.20, 12.20),
+				new Coordinate(77.80, 12.50),
+				new Coordinate(77.87, 12.78)));
+		Polygon polygon = new Polygon(coordinates);
+		PolygonProperties polygonProperties = new PolygonProperties();
+		polygonProperties.setName("name");
+		polygonProperties.setOsmId(1);
+		polygonProperties.setBuilding("appartments");
+		Feature<Polygon> polygonFeature = new Feature<Polygon>(polygon, polygonProperties);
+		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
+		features.add(polygonFeature);
+
+		FeatureCollection ser = new FeatureCollection();
+		ser.addFeature(polygonFeature);
+
+		String json = new ObjectMapper().writeValueAsString(ser);
+		System.out.println(json);
+		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
+		Assert.assertEquals(ser, de);
+	}
+
+	@Test
+	public void testFeatureCollectionWithPolygonSerdeWithoutProperties() throws Exception {
+
+		List<List<Coordinate>> coordinates = Arrays.asList(Arrays.asList(
+				new Coordinate(77.87, 12.78),
+				new Coordinate(77.20, 12.20),
+				new Coordinate(77.80, 12.50),
+				new Coordinate(77.87, 12.78)));
+		Polygon polygon = new Polygon(coordinates);
+		Feature<Polygon> polygonFeature = new Feature<Polygon>(polygon, null);
+		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
+		features.add(polygonFeature);
+
+		FeatureCollection ser = new FeatureCollection();
+		ser.addFeature(polygonFeature);
+
+		String json = new ObjectMapper().writeValueAsString(ser);
+		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
+		Assert.assertEquals(ser, de);
+	}
+
+	@Test
+	public void testFeatureCollectionWithMultiPolygonWithProperties() throws Exception {
+
+		List<List<List<Coordinate>>> coordinates = Arrays.asList(
+				Arrays.asList(Arrays.asList(
+						new Coordinate(77.87, 12.78),
+						new Coordinate(77.20, 12.20),
+						new Coordinate(77.80, 12.50),
+						new Coordinate(77.87, 12.78)))
+		);
+
+		MultiPolygon multiPolygon = new MultiPolygon(coordinates);
+
+		MultiPolygonProperties multiPolygonProperties = new MultiPolygonProperties();
+		multiPolygonProperties.setOsmId(1);
+		multiPolygonProperties.setName("name");
+		multiPolygonProperties.setBuilding("appartments1");
+
+		Feature<MultiPolygon> multiPolygonFeature = new Feature<MultiPolygon>(multiPolygon, multiPolygonProperties);
+		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
+
+		FeatureCollection ser = new FeatureCollection();
+		ser.addFeature(multiPolygonFeature);
+
+		String json = new ObjectMapper().writeValueAsString(ser);
+		System.out.println(json);
+		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
+		Assert.assertEquals(ser, de);
+	}
+
+	@Test
+	public void testFeatureCollectionWithMultiPolygonWithoutProperties() throws Exception {
+
+		List<List<List<Coordinate>>> coordinates = Arrays.asList(
+				Arrays.asList(Arrays.asList(
+						new Coordinate(77.87, 12.78),
+						new Coordinate(77.20, 12.20),
+						new Coordinate(77.80, 12.50),
+						new Coordinate(77.87, 12.78)))
+		);
+
+		MultiPolygon multiPolygon = new MultiPolygon(coordinates);
+		Feature<MultiPolygon> multiPolygonFeature = new Feature<MultiPolygon>(multiPolygon, null);
+		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
+
+		FeatureCollection ser = new FeatureCollection();
+		ser.addFeature(multiPolygonFeature);
+
+		String json = new ObjectMapper().writeValueAsString(ser);
+		System.out.println(json);
+		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
+		Assert.assertEquals(ser, de);
 	}
 }

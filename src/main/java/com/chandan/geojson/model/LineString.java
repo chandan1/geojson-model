@@ -14,7 +14,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class LineString extends Geometry {
 
-	private List<Coordinate> coordinates = new ArrayList<Coordinate>();
+	private List<Coordinate> coordinates;
 	
 	public LineString() {
 		super(GeoJsonModelType.LINESTRING);
@@ -23,9 +23,5 @@ public class LineString extends Geometry {
 	public LineString(List<Coordinate> coordinates) {
 		super(GeoJsonModelType.LINESTRING);
 		this.coordinates = coordinates;
-	}
-
-	public void addCoordinate(Coordinate coordinate) {
-		coordinates.add(coordinate);
 	}
 }

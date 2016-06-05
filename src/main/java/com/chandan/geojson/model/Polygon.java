@@ -21,4 +21,9 @@ public class Polygon extends Geometry {
     public Polygon() {
         super(GeoJsonModelType.POLYGON);
     }
+
+    public Polygon(List<List<Coordinate>> coordinates) {
+        super(GeoJsonModelType.POLYGON);
+        this.coordinates = coordinates;
+    }
 }
