@@ -242,4 +242,6 @@ public class PolygonProperties extends CommonProperties<Polygon> {
        1 		<tag k="type" v="waterway"/>
      */
     private String waterway;
+
+    private String highway;
 }
