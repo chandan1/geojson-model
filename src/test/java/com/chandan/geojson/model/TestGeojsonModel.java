@@ -16,7 +16,7 @@ public class TestGeojsonModel {
 
 	@Test
 	public void testCoordinateSerde() throws Exception {
-		Coordinate ser = new Coordinate(1.2, 2.3);
+		Coordinate ser = new Coordinate(1.2f, 2.3f);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Coordinate de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Coordinate>() {});
 		Assert.assertEquals(ser, de);
@@ -24,7 +24,7 @@ public class TestGeojsonModel {
 	
 	@Test
 	public void testPointSerde() throws Exception {
-		Point ser = new Point(new Coordinate(1.2, 2.3));
+		Point ser = new Point(new Coordinate(1.2f, 2.3f));
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Point de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Point>() {});
 		Assert.assertEquals(ser, de);
@@ -32,7 +32,7 @@ public class TestGeojsonModel {
 	
 	@Test
 	public void testFeatureLinestringSerde() throws Exception {
-		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
+		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2f, 2.3f), new Coordinate(2.3f, 2.5f)));
 		LineStringProperties wayProperties = new LineStringProperties();
 		wayProperties.setStartNodeId(2);
 		wayProperties.setEndNodeId(3);
@@ -48,7 +48,7 @@ public class TestGeojsonModel {
 	
 	@Test
 	public void testFeaturePointSerde() throws Exception {
-		Point point = new Point(new Coordinate(77.87, 12.78));
+		Point point = new Point(new Coordinate(77.87f, 12.78f));
 		PointProperties nodeProperties = new PointProperties();
 		nodeProperties.setOsmId(1);
 		nodeProperties.setName("way");
@@ -61,7 +61,7 @@ public class TestGeojsonModel {
 
 	@Test
 	public void testFeaturePointWithoutPropertiesSerde() throws Exception {
-		Feature<Point> ser = new Feature<Point>(new Point(new Coordinate(77.87, 12.78)), null);
+		Feature<Point> ser = new Feature<Point>(new Point(new Coordinate(77.87f, 12.78f)), null);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Feature<Point> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<Point>>() {});
 		Assert.assertEquals(ser, de);
@@ -69,7 +69,7 @@ public class TestGeojsonModel {
 
 	@Test
 	public void testFeatureLinestringWithoutPropertiesSerde() throws Exception {
-		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
+		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2f, 2.3f), new Coordinate(2.3f, 2.5f)));
 		Feature<LineString> ser = new Feature<LineString>(lineString, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Feature<LineString> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<LineString>>() {});
@@ -79,14 +79,14 @@ public class TestGeojsonModel {
 	@Test
 	public void testFeatureCollectionWithLineStringPointSerdeWithProperties() throws Exception {
 
-		Point point = new Point(new Coordinate(77.87, 12.78));
+		Point point = new Point(new Coordinate(77.87f, 12.78f));
 		PointProperties nodeProperties = new PointProperties();
 		nodeProperties.setOsmId(1);
 		nodeProperties.setName("way");
 		nodeProperties.setAmenity("restaurant");
 		Feature<Point> serPoint = new Feature<Point>(point, nodeProperties);
 
-		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
+		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2f, 2.3f), new Coordinate(2.3f, 2.5f)));
 		LineStringProperties wayProperties = new LineStringProperties();
 		wayProperties.setStartNodeId(2);
 		wayProperties.setEndNodeId(3);
@@ -113,10 +113,10 @@ public class TestGeojsonModel {
 	@Test
 	public void testFeatureCollectionWithLineStringPointSerdeWithoutProperties() throws Exception {
 
-		Point point = new Point(new Coordinate(77.87, 12.78));
+		Point point = new Point(new Coordinate(77.87f, 12.78f));
 		Feature<Point> serPoint = new Feature<Point>(point, null);
 
-		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
+		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2f, 2.3f), new Coordinate(2.3f, 2.5f)));
 		Feature<LineString> serLinestring = new Feature<LineString>(lineString, null);
 
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
@@ -138,10 +138,10 @@ public class TestGeojsonModel {
 	public void testFeatureCollectionWithPolygonSerdeWithProperties() throws Exception {
 
 		List<List<Coordinate>> coordinates = Arrays.asList(Arrays.asList(
-				new Coordinate(77.87, 12.78),
-				new Coordinate(77.20, 12.20),
-				new Coordinate(77.80, 12.50),
-				new Coordinate(77.87, 12.78)));
+				new Coordinate(77.87f, 12.78f),
+				new Coordinate(77.20f, 12.20f),
+				new Coordinate(77.80f, 12.50f),
+				new Coordinate(77.87f, 12.78f)));
 		Polygon polygon = new Polygon(coordinates);
 		PolygonProperties polygonProperties = new PolygonProperties();
 		polygonProperties.setName("name");
@@ -164,10 +164,10 @@ public class TestGeojsonModel {
 	public void testFeatureCollectionWithPolygonSerdeWithoutProperties() throws Exception {
 
 		List<List<Coordinate>> coordinates = Arrays.asList(Arrays.asList(
-				new Coordinate(77.87, 12.78),
-				new Coordinate(77.20, 12.20),
-				new Coordinate(77.80, 12.50),
-				new Coordinate(77.87, 12.78)));
+				new Coordinate(77.87f, 12.78f),
+				new Coordinate(77.20f, 12.20f),
+				new Coordinate(77.80f, 12.50f),
+				new Coordinate(77.87f, 12.78f)));
 		Polygon polygon = new Polygon(coordinates);
 		Feature<Polygon> polygonFeature = new Feature<Polygon>(polygon, null);
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
@@ -186,10 +186,10 @@ public class TestGeojsonModel {
 
 		List<List<List<Coordinate>>> coordinates = Arrays.asList(
 				Arrays.asList(Arrays.asList(
-						new Coordinate(77.87, 12.78),
-						new Coordinate(77.20, 12.20),
-						new Coordinate(77.80, 12.50),
-						new Coordinate(77.87, 12.78)))
+						new Coordinate(77.87f, 12.78f),
+						new Coordinate(77.20f, 12.20f),
+						new Coordinate(77.80f, 12.50f),
+						new Coordinate(77.87f, 12.78f)))
 		);
 
 		MultiPolygon multiPolygon = new MultiPolygon(coordinates);
@@ -216,10 +216,10 @@ public class TestGeojsonModel {
 
 		List<List<List<Coordinate>>> coordinates = Arrays.asList(
 				Arrays.asList(Arrays.asList(
-						new Coordinate(77.87, 12.78),
-						new Coordinate(77.20, 12.20),
-						new Coordinate(77.80, 12.50),
-						new Coordinate(77.87, 12.78)))
+						new Coordinate(77.87f, 12.78f),
+						new Coordinate(77.20f, 12.20f),
+						new Coordinate(77.80f, 12.50f),
+						new Coordinate(77.87f, 12.78f)))
 		);
 
 		MultiPolygon multiPolygon = new MultiPolygon(coordinates);

@@ -19,6 +19,6 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 @EqualsAndHashCode
 public class Coordinate {
 	
-	private double lng;
-	private double lat;	
+	private float lng;
+	private float lat;
 }
