@@ -37,7 +37,7 @@ public class TestGeojsonModel {
 		wayProperties.setStartNodeId(2);
 		wayProperties.setEndNodeId(3);
 		wayProperties.setBuilding("appartment");
-		wayProperties.setHighWay("trunk");
+		wayProperties.setHighway("trunk");
 		wayProperties.setOsmId(1);
 		wayProperties.setName("way");
 		Feature<LineString> ser = new Feature<LineString>(lineString, wayProperties);
@@ -91,7 +91,7 @@ public class TestGeojsonModel {
 		wayProperties.setStartNodeId(2);
 		wayProperties.setEndNodeId(3);
 		wayProperties.setBuilding("appartment");
-		wayProperties.setHighWay("trunk");
+		wayProperties.setHighway("trunk");
 		wayProperties.setOsmId(1);
 		wayProperties.setName("way");
 		Feature<LineString> serLinestring = new Feature<LineString>(lineString, wayProperties);

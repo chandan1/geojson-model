@@ -21,7 +21,7 @@ public class LineStringProperties extends CommonProperties<LineString> {
 
 	private long startNodeId;
 	private long endNodeId;
-	private String highWay;
+	private String highway;
 	private String building;
 
 	// values can be coastline, tree_row

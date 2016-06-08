@@ -16,5 +16,6 @@ import lombok.ToString;
 public class PointProperties extends CommonProperties<Point> {
 	
 	private String amenity;
-	private String highWay;
+	private String highway;
+	private String building;
 }
