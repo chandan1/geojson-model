@@ -244,4 +244,6 @@ public class PolygonProperties extends CommonProperties<Polygon> {
     private String waterway;
 
     private String highway;
+
+    private boolean ocean;
 }
