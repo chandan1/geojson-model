@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class FeatureCollection extends Geometry  {
+public class FeatureCollection extends GeoJson  {
 
     private List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 

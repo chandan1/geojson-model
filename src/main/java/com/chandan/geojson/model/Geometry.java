@@ -5,11 +5,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-@AllArgsConstructor(suppressConstructorProperties = true)
+/**
+ * A super class for geometries in GeoJson.
+ */
 @Getter
-@EqualsAndHashCode
-@ToString
-public abstract class Geometry {
-	
-	private GeoJsonModelType type;
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public abstract class Geometry extends GeoJson {
+
+	public Geometry(GeoJsonModelType type) {
+		super(type);
+	}
 }

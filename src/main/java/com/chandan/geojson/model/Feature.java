@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonDeserialize(using = Feature.FeatureDeserializer.class)
-public class Feature<T extends Geometry> extends Geometry {
+public class Feature<T extends Geometry> extends GeoJson {
 
 	private T geometry;
 
