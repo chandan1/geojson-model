@@ -1,5 +1,6 @@
 package com.chandan.geojson.model;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
+@JsonPropertyOrder({"lng", "lat"})
 public class Coordinate {
 	
 	private float lng;
