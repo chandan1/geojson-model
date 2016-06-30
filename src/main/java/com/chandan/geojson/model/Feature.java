@@ -21,12 +21,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = Feature.FeatureDeserializer.class)
 public class Feature<T extends Geometry> extends GeoJson {
 
+	private String id;
 	private T geometry;
-
 	private CommonProperties<T> properties;
 
-	public Feature(T geometry, CommonProperties<T> properties) {
+	public Feature(String id, T geometry, CommonProperties<T> properties) {
 		super(GeoJsonModelType.FEATURE);
+		this.id = id;
 		this.geometry = geometry;
 		this.properties = properties;
 	}
@@ -44,15 +45,16 @@ public class Feature<T extends Geometry> extends GeoJson {
 				JsonNode geometryJson = node.get("geometry");
 				if (geometryJson.isObject()) {
 					GeoJsonModelType type = GeoJsonModelType.findByValue(geometryJson.get("type").asText());
+					String id = objectCodec.treeToValue(node.get("id"), String.class);
 					switch (type) {
 					case POINT:
 						Point point = objectCodec.treeToValue(node.get("geometry"), Point.class);
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
 							PointProperties nodeProperties = objectCodec.treeToValue(node.get("properties"),
 									PointProperties.class);
-							feature = new Feature<Point>(point, nodeProperties);
+							feature = new Feature<Point>(id, point, nodeProperties);
 						} else {
-							feature = new Feature<Point>(point, null);
+							feature = new Feature<Point>(id, point, null);
 						}
 						break;
 					case LINESTRING:
@@ -60,9 +62,9 @@ public class Feature<T extends Geometry> extends GeoJson {
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
 							LineStringProperties wayProperties = objectCodec.treeToValue(node.get("properties"),
 									LineStringProperties.class);
-							feature = new Feature<LineString>(lineString, wayProperties);
+							feature = new Feature<LineString>(id, lineString, wayProperties);
 						} else {
-							feature = new Feature<LineString>(lineString, null);
+							feature = new Feature<LineString>(id, lineString, null);
 						}
 						break;
 					case POLYGON:
@@ -70,9 +72,9 @@ public class Feature<T extends Geometry> extends GeoJson {
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
 							PolygonProperties polygonProperties = objectCodec.treeToValue(node.get("properties"),
 									PolygonProperties.class);
-							feature = new Feature<Polygon>(polygon, polygonProperties);
+							feature = new Feature<Polygon>(id, polygon, polygonProperties);
 						} else {
-							feature = new Feature<Polygon>(polygon, null);
+							feature = new Feature<Polygon>(id, polygon, null);
 						}
 						break;
 					case MULTI_POLYGON:
@@ -80,9 +82,9 @@ public class Feature<T extends Geometry> extends GeoJson {
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
 							MultiPolygonProperties multiPolygonProperties = objectCodec.treeToValue(node.get("properties"),
 									MultiPolygonProperties.class);
-							feature = new Feature<MultiPolygon>(multiPolygon, multiPolygonProperties);
+							feature = new Feature<MultiPolygon>(id, multiPolygon, multiPolygonProperties);
 						} else {
-							feature = new Feature<MultiPolygon>(multiPolygon, null);
+							feature = new Feature<MultiPolygon>(id, multiPolygon, null);
 						}
 						break;
 

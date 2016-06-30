@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @EqualsAndHashCode
 @JsonInclude(value = Include.NON_NULL)
 public abstract class CommonProperties<T extends Geometry> {
-		
-	private long osmId;
+
 	private String name;
 }
