@@ -1,8 +1,12 @@
 package com.chandan.geojson.model;
 
 import java.io.IOException;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -21,11 +25,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = Feature.FeatureDeserializer.class)
 public class Feature<T extends Geometry> extends GeoJson {
 
-	private String id;
-	private T geometry;
-	private CommonProperties<T> properties;
+	private final String id;
+	private final T geometry;
+	private final Map<String, Object> properties;
 
-	public Feature(String id, T geometry, CommonProperties<T> properties) {
+	@JsonCreator
+	public Feature(@JsonProperty("id") String id,
+				   @JsonProperty("geometry") T geometry,
+				   @JsonProperty("properties") Map<String, Object> properties) {
 		super(GeoJsonModelType.FEATURE);
 		this.id = id;
 		this.geometry = geometry;
@@ -50,8 +57,8 @@ public class Feature<T extends Geometry> extends GeoJson {
 					case POINT:
 						Point point = objectCodec.treeToValue(node.get("geometry"), Point.class);
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
-							PointProperties nodeProperties = objectCodec.treeToValue(node.get("properties"),
-									PointProperties.class);
+							Map<String, Object> nodeProperties = objectCodec.treeToValue(node.get("properties"),
+									Map.class);
 							feature = new Feature<Point>(id, point, nodeProperties);
 						} else {
 							feature = new Feature<Point>(id, point, null);
@@ -60,8 +67,8 @@ public class Feature<T extends Geometry> extends GeoJson {
 					case LINESTRING:
 						LineString lineString = objectCodec.treeToValue(node.get("geometry"), LineString.class);
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
-							LineStringProperties wayProperties = objectCodec.treeToValue(node.get("properties"),
-									LineStringProperties.class);
+							Map<String, Object> wayProperties = objectCodec.treeToValue(node.get("properties"),
+									Map.class);
 							feature = new Feature<LineString>(id, lineString, wayProperties);
 						} else {
 							feature = new Feature<LineString>(id, lineString, null);
@@ -70,8 +77,8 @@ public class Feature<T extends Geometry> extends GeoJson {
 					case POLYGON:
 						Polygon polygon = objectCodec.treeToValue(node.get("geometry"), Polygon.class);
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
-							PolygonProperties polygonProperties = objectCodec.treeToValue(node.get("properties"),
-									PolygonProperties.class);
+							Map<String, Object> polygonProperties = objectCodec.treeToValue(node.get("properties"),
+									Map.class);
 							feature = new Feature<Polygon>(id, polygon, polygonProperties);
 						} else {
 							feature = new Feature<Polygon>(id, polygon, null);
@@ -80,8 +87,8 @@ public class Feature<T extends Geometry> extends GeoJson {
 					case MULTI_POLYGON:
 						MultiPolygon multiPolygon = objectCodec.treeToValue(node.get("geometry"), MultiPolygon.class);
 						if (node.get("properties") != null && !node.get("properties").isNull()) {
-							MultiPolygonProperties multiPolygonProperties = objectCodec.treeToValue(node.get("properties"),
-									MultiPolygonProperties.class);
+							Map<String, Object> multiPolygonProperties = objectCodec.treeToValue(node.get("properties"),
+									Map.class);
 							feature = new Feature<MultiPolygon>(id, multiPolygon, multiPolygonProperties);
 						} else {
 							feature = new Feature<MultiPolygon>(id, multiPolygon, null);
