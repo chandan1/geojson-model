@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonDeserialize(using = Feature.FeatureDeserializer.class)
+@Builder
 public class Feature<T extends Geometry> extends GeoJson {
 
 	private final String id;

@@ -1,5 +1,7 @@
 package com.chandan.geojson.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -14,13 +16,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class FeatureCollection extends GeoJson  {
 
-    private List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
+    private final List<Feature<? extends Geometry>> features;
 
-    public FeatureCollection() {
+    @JsonCreator
+    public FeatureCollection(@JsonProperty("features") List<Feature<? extends Geometry>> features) {
         super(GeoJsonModelType.FEATURE_COLLECTION);
-    }
-
-    public void addFeature(Feature<? extends Geometry> feature) {
-        features.add(feature);
+        this.features = features;
     }
 }

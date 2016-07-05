@@ -93,12 +93,10 @@ public class TestGeojsonModel {
 		Feature<LineString> serLinestring = new Feature<LineString>("1", lineString, wayProperties);
 
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
-		features.add(serLinestring);
 		features.add(serPoint);
+		features.add(serLinestring);
 
-		FeatureCollection ser = new FeatureCollection();
-		ser.addFeature(serPoint);
-		ser.addFeature(serLinestring);
+		FeatureCollection ser = new FeatureCollection(features);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
 		Assert.assertEquals(GeoJsonModelType.FEATURE_COLLECTION, de.getType());
@@ -117,12 +115,10 @@ public class TestGeojsonModel {
 		Feature<LineString> serLinestring = new Feature<LineString>("1", lineString, null);
 
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
-		features.add(serLinestring);
 		features.add(serPoint);
+		features.add(serLinestring);
 
-		FeatureCollection ser = new FeatureCollection();
-		ser.addFeature(serPoint);
-		ser.addFeature(serLinestring);
+		FeatureCollection ser = new FeatureCollection(features);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
 		Assert.assertEquals(GeoJsonModelType.FEATURE_COLLECTION, de.getType());
@@ -146,8 +142,7 @@ public class TestGeojsonModel {
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(polygonFeature);
 
-		FeatureCollection ser = new FeatureCollection();
-		ser.addFeature(polygonFeature);
+		FeatureCollection ser = new FeatureCollection(features);
 
 		String json = new ObjectMapper().writeValueAsString(ser);
 		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
@@ -167,8 +162,7 @@ public class TestGeojsonModel {
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(polygonFeature);
 
-		FeatureCollection ser = new FeatureCollection();
-		ser.addFeature(polygonFeature);
+		FeatureCollection ser = new FeatureCollection(features);
 
 		String json = new ObjectMapper().writeValueAsString(ser);
 		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
@@ -194,9 +188,9 @@ public class TestGeojsonModel {
 
 		Feature<MultiPolygon> multiPolygonFeature = new Feature<MultiPolygon>("1", multiPolygon, multiPolygonProperties);
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
+		features.add(multiPolygonFeature);
 
-		FeatureCollection ser = new FeatureCollection();
-		ser.addFeature(multiPolygonFeature);
+		FeatureCollection ser = new FeatureCollection(features);
 
 		String json = new ObjectMapper().writeValueAsString(ser);
 		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
@@ -217,9 +211,9 @@ public class TestGeojsonModel {
 		MultiPolygon multiPolygon = new MultiPolygon(coordinates);
 		Feature<MultiPolygon> multiPolygonFeature = new Feature<MultiPolygon>("1", multiPolygon, null);
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
+		features.add(multiPolygonFeature);
 
-		FeatureCollection ser = new FeatureCollection();
-		ser.addFeature(multiPolygonFeature);
+		FeatureCollection ser = new FeatureCollection(features);
 
 		String json = new ObjectMapper().writeValueAsString(ser);
 		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
