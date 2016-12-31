@@ -21,6 +21,6 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 @JsonPropertyOrder({"lng", "lat"})
 public class Coordinate {
 	
-	private float lng;
-	private float lat;
+	private double lng;
+	private double lat;
 }

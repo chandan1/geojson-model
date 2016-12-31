@@ -19,16 +19,8 @@ import lombok.*;
 @EqualsAndHashCode
 public class BoundingBox {
 
-    private float minLng;
-    private float minLat;
-    private float maxLng;
-    private float maxLat;
-
-    public static void main(String[] args) throws Exception {
-        BoundingBox bbox = new BoundingBox(-180.0f, -90.0f, 180.0f, 90.0f);
-        String json = new ObjectMapper().writeValueAsString(bbox);
-        System.out.println(json);
-        BoundingBox bbox1 = new ObjectMapper().readValue(json, BoundingBox.class);
-        System.out.println(bbox1);
-    }
+    private double minLng;
+    private double minLat;
+    private double maxLng;
+    private double maxLat;
 }
