@@ -27,13 +27,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Feature<T extends Geometry> extends GeoJson {
 
-	private final String id;
+	private final long id;
 	private final T geometry;
 	private final Map<String, Object> properties;
 	private final BoundingBox bbox;
 
 	@JsonCreator
-	public Feature(@JsonProperty("id") String id,
+	public Feature(@JsonProperty("id") long id,
 				   @JsonProperty("geometry") T geometry,
 				   @JsonProperty("properties") Map<String, Object> properties,
 				   @JsonProperty("bbox") BoundingBox bbox) {
@@ -57,9 +57,9 @@ public class Feature<T extends Geometry> extends GeoJson {
 				JsonNode geometryJson = node.get("geometry");
 				if (geometryJson.isObject()) {
 					GeoJsonModelType type = GeoJsonModelType.findByValue(geometryJson.get("type").asText());
-					String id = null;
+					Long id = null;
 					if (node.get("id") != null && !node.get("id").isNull()) {
-						id = objectCodec.treeToValue(node.get("id"), String.class);
+						id = objectCodec.treeToValue(node.get("id"), Long.class);
 					}
 					switch (type) {
 					case POINT:

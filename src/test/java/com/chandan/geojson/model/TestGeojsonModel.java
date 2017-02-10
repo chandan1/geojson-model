@@ -37,7 +37,7 @@ public class TestGeojsonModel {
 		properties.put("building", "appartment");
 		properties.put("highway", "trunk");
 		properties.put("name", "DSR Cosmos");
-		Feature<LineString> ser = new Feature<LineString>("1", lineString, properties, null);
+		Feature<LineString> ser = new Feature<LineString>(1, lineString, properties, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Feature<LineString> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<LineString>>() {});
 		Assert.assertEquals(ser, de);
@@ -49,7 +49,7 @@ public class TestGeojsonModel {
 		Map<String, Object> properties = new HashMap<String, Object>();
 		properties.put("name", "way");
 		properties.put("amenity", "restaurant");
-		Feature<Point> ser = new Feature<Point>("1",point, properties, null);
+		Feature<Point> ser = new Feature<Point>(1,point, properties, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Feature<Point> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<Point>>() {});
 		Assert.assertEquals(ser, de);
@@ -57,7 +57,7 @@ public class TestGeojsonModel {
 
 	@Test
 	public void testFeaturePointWithoutPropertiesSerde() throws Exception {
-		Feature<Point> ser = new Feature<Point>("1", new Point(new Coordinate(77.87, 12.78)), null, null);
+		Feature<Point> ser = new Feature<Point>(1, new Point(new Coordinate(77.87, 12.78)), null, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Feature<Point> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<Point>>() {});
 		Assert.assertEquals(ser, de);
@@ -66,7 +66,7 @@ public class TestGeojsonModel {
 	@Test
 	public void testFeatureLinestringWithoutPropertiesSerde() throws Exception {
 		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
-		Feature<LineString> ser = new Feature<LineString>("1", lineString, null, null);
+		Feature<LineString> ser = new Feature<LineString>(1, lineString, null, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Feature<LineString> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<LineString>>() {});
 		Assert.assertEquals(ser, de);
@@ -80,7 +80,7 @@ public class TestGeojsonModel {
 		nodeProperties.put("name", "way");
 		nodeProperties.put("amenity", "restaurant");
 
-		Feature<Point> serPoint = new Feature<Point>("1", point, nodeProperties, null);
+		Feature<Point> serPoint = new Feature<Point>(1, point, nodeProperties, null);
 
 		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
 		Map<String, Object> wayProperties = new HashMap<String, Object>();
@@ -90,7 +90,7 @@ public class TestGeojsonModel {
 		wayProperties.put("highway", "trunk");
 		wayProperties.put("name", "way");
 
-		Feature<LineString> serLinestring = new Feature<LineString>("1", lineString, wayProperties, null);
+		Feature<LineString> serLinestring = new Feature<LineString>(1, lineString, wayProperties, null);
 
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(serPoint);
@@ -109,10 +109,10 @@ public class TestGeojsonModel {
 	public void testFeatureCollectionWithLineStringPointSerdeWithoutProperties() throws Exception {
 
 		Point point = new Point(new Coordinate(77.87, 12.78));
-		Feature<Point> serPoint = new Feature<Point>("1", point, null, null);
+		Feature<Point> serPoint = new Feature<Point>(1, point, null, null);
 
 		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
-		Feature<LineString> serLinestring = new Feature<LineString>("1", lineString, null, null);
+		Feature<LineString> serLinestring = new Feature<LineString>(1, lineString, null, null);
 
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(serPoint);
@@ -138,7 +138,7 @@ public class TestGeojsonModel {
 		Map<String, Object> polygonProperties = new HashMap<String, Object>();
 		polygonProperties.put("name", "name");
 		polygonProperties.put("building", "appartments");
-		Feature<Polygon> polygonFeature = new Feature<Polygon>("1", polygon, polygonProperties, null);
+		Feature<Polygon> polygonFeature = new Feature<Polygon>(1, polygon, polygonProperties, null);
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(polygonFeature);
 
@@ -158,7 +158,7 @@ public class TestGeojsonModel {
 				new Coordinate(77.80, 12.50),
 				new Coordinate(77.87, 12.78)));
 		Polygon polygon = new Polygon(coordinates);
-		Feature<Polygon> polygonFeature = new Feature<Polygon>("1", polygon, null, null);
+		Feature<Polygon> polygonFeature = new Feature<Polygon>(1, polygon, null, null);
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(polygonFeature);
 
@@ -186,7 +186,7 @@ public class TestGeojsonModel {
 		multiPolygonProperties.put("name", "name");
 		multiPolygonProperties.put("building", "appartments1");
 
-		Feature<MultiPolygon> multiPolygonFeature = new Feature<MultiPolygon>("1", multiPolygon, multiPolygonProperties, null);
+		Feature<MultiPolygon> multiPolygonFeature = new Feature<MultiPolygon>(1, multiPolygon, multiPolygonProperties, null);
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(multiPolygonFeature);
 
@@ -209,7 +209,7 @@ public class TestGeojsonModel {
 		);
 
 		MultiPolygon multiPolygon = new MultiPolygon(coordinates);
-		Feature<MultiPolygon> multiPolygonFeature = new Feature<MultiPolygon>("1", multiPolygon, null, null);
+		Feature<MultiPolygon> multiPolygonFeature = new Feature<MultiPolygon>(1, multiPolygon, null, null);
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(multiPolygonFeature);
 
@@ -231,7 +231,7 @@ public class TestGeojsonModel {
 						new Coordinate(-180.0, -90.0)));
 		Polygon polygon = new Polygon(coordinates);
 		BoundingBox boundingBox = new BoundingBox(-180.0, -90.0, 180.0, 90.0);
-		Feature<Polygon> ser = new Feature<Polygon>(null, polygon, null, boundingBox);
+		Feature<Polygon> ser = new Feature<Polygon>(0, polygon, null, boundingBox);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Feature<Polygon> de = new ObjectMapper().readValue(json, new TypeReference<Feature<Polygon>>() {});
 	}
