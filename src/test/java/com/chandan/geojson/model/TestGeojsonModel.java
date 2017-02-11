@@ -80,7 +80,7 @@ public class TestGeojsonModel {
 		nodeProperties.put("name", "way");
 		nodeProperties.put("amenity", "restaurant");
 
-		Feature<Point> serPoint = new Feature<Point>(1, point, nodeProperties, null);
+		Feature<Point> serPoint = new Feature<Point>(Long.MAX_VALUE, point, nodeProperties, null);
 
 		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
 		Map<String, Object> wayProperties = new HashMap<String, Object>();
@@ -102,7 +102,6 @@ public class TestGeojsonModel {
 		Assert.assertEquals(GeoJsonModelType.FEATURE_COLLECTION, de.getType());
 		Assert.assertEquals(serPoint, de.getFeatures().get(0));
 		Assert.assertEquals(serLinestring, de.getFeatures().get(1));
-
 	}
 
 	@Test
@@ -234,5 +233,44 @@ public class TestGeojsonModel {
 		Feature<Polygon> ser = new Feature<Polygon>(0, polygon, null, boundingBox);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		Feature<Polygon> de = new ObjectMapper().readValue(json, new TypeReference<Feature<Polygon>>() {});
+	}
+
+	@Test
+	public void testFeaturePolygonWithLandPolygon() throws Exception {
+		String json = "{\n" +
+				"  \"geometry\": {\n" +
+				"    \"coordinates\": [\n" +
+				"      [\n" +
+				"        [\n" +
+				"          78.80656416249998,\n" +
+				"          12.182053918749999\n" +
+				"        ],\n" +
+				"        [\n" +
+				"          76.34827762499998,\n" +
+				"          12.182053918749999\n" +
+				"        ],\n" +
+				"        [\n" +
+				"          76.34827762499998,\n" +
+				"          16.287100937499996\n" +
+				"        ],\n" +
+				"        [\n" +
+				"          78.80656416249998,\n" +
+				"          16.287100937499996\n" +
+				"        ],\n" +
+				"        [\n" +
+				"          78.80656416249998,\n" +
+				"          12.182053918749999\n" +
+				"        ]\n" +
+				"      ]\n" +
+				"    ],\n" +
+				"    \"type\": \"Polygon\"\n" +
+				"  },\n" +
+				"  \"properties\": {\n" +
+				"    \"FID\": 483450\n" +
+				"  },\n" +
+				"  \"type\": \"Feature\"\n" +
+				"}";
+		Feature<Polygon> landPolygon = new ObjectMapper().readValue(json, new TypeReference<Feature<Polygon>>() {});
+		Assert.assertEquals(483450, landPolygon.getId());
 	}
 }
