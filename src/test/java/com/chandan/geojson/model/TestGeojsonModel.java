@@ -3,7 +3,6 @@ package com.chandan.geojson.model;
 
 import java.util.*;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -99,7 +98,6 @@ public class TestGeojsonModel {
 		FeatureCollection ser = new FeatureCollection(features);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
-		Assert.assertEquals(GeoJsonModelType.FEATURE_COLLECTION, de.getType());
 		Assert.assertEquals(serPoint, de.getFeatures().get(0));
 		Assert.assertEquals(serLinestring, de.getFeatures().get(1));
 	}
@@ -120,7 +118,6 @@ public class TestGeojsonModel {
 		FeatureCollection ser = new FeatureCollection(features);
 		String json = new ObjectMapper().writeValueAsString(ser);
 		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
-		Assert.assertEquals(GeoJsonModelType.FEATURE_COLLECTION, de.getType());
 		Assert.assertEquals(serPoint, de.getFeatures().get(0));
 		Assert.assertEquals(serLinestring, de.getFeatures().get(1));
 	}
@@ -215,7 +212,7 @@ public class TestGeojsonModel {
 		FeatureCollection ser = new FeatureCollection(features);
 
 		String json = new ObjectMapper().writeValueAsString(ser);
-		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<GeoJson>() {});
 		Assert.assertEquals(ser, de);
 	}
 
@@ -271,6 +268,6 @@ public class TestGeojsonModel {
 				"  \"type\": \"Feature\"\n" +
 				"}";
 		Feature<Polygon> landPolygon = new ObjectMapper().readValue(json, new TypeReference<Feature<Polygon>>() {});
-		Assert.assertEquals(483450, landPolygon.getId());
+		Assert.assertEquals(483450, landPolygon.getProperties().get("FID"));
 	}
 }

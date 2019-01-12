@@ -13,7 +13,4 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public abstract class Geometry extends GeoJson {
 
-	public Geometry(GeoJsonModelType type) {
-		super(type);
-	}
 }

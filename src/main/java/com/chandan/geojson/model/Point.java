@@ -16,7 +16,6 @@ public class Point extends Geometry {
 
 	@JsonCreator
 	public Point(@JsonProperty("coordinates") Coordinate coordinates) {
-		super(GeoJsonModelType.POINT);
 		this.coordinates = coordinates;
 	}
 }

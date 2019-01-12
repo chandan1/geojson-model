@@ -4,23 +4,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
 
 /**
- * Created by chandan on 04/06/16.
+ * Created by chandan on 2019-01-12.
  */
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class MultiPolygon extends Geometry {
+public class MultiPoint extends Geometry {
 
-    private final List<List<List<Coordinate>>> coordinates;
+    private final List<Point> coordinates;
 
     @JsonCreator
-    public MultiPolygon(@JsonProperty("coordinates") List<List<List<Coordinate>>> coordinates) {
-        this.coordinates = coordinates;
+    public MultiPoint(@JsonProperty("coordinates") List<Point> coordinatess) {
+        this.coordinates = coordinatess;
     }
 }

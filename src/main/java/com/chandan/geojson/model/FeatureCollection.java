@@ -14,13 +14,12 @@ import java.util.List;
 @Setter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class FeatureCollection extends GeoJson  {
+public class FeatureCollection extends GeoJson {
 
     private final List<Feature<? extends Geometry>> features;
 
     @JsonCreator
     public FeatureCollection(@JsonProperty("features") List<Feature<? extends Geometry>> features) {
-        super(GeoJsonModelType.FEATURE_COLLECTION);
         this.features = features;
     }
 }

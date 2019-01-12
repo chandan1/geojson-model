@@ -21,7 +21,6 @@ public class Polygon extends Geometry {
 
     @JsonCreator
     public Polygon(@JsonProperty("coordinates") List<List<Coordinate>> coordinates) {
-        super(GeoJsonModelType.POLYGON);
         this.coordinates = coordinates;
     }
 }
