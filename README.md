@@ -3,7 +3,7 @@
 This repository contains Java classes which are representation of GeoJSON entities. For more detail refer [GeoJson Spec](http://geojson.org/geojson-spec.html) .
 
 
-Entities supporteds :
+GeoJson objects :
 
 * Points
 * LineString
@@ -12,6 +12,7 @@ Entities supporteds :
 * MultiLineString
 * MultiPolygon
 * GeometryCollection
+* Feature
 * FeatureCollection
 
 Example usage :
