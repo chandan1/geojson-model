@@ -20,7 +20,9 @@ public class MultiPolygon extends Geometry {
     private final List<List<List<Coordinate>>> coordinates;
 
     @JsonCreator
-    public MultiPolygon(@JsonProperty("coordinates") List<List<List<Coordinate>>> coordinates) {
+    public MultiPolygon(@JsonProperty("coordinates") List<List<List<Coordinate>>> coordinates,
+                        @JsonProperty("bbox") BoundingBox bbox) {
+        super(bbox);
         this.coordinates = coordinates;
     }
 }

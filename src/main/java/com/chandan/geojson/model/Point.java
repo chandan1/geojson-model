@@ -15,7 +15,9 @@ public class Point extends Geometry {
 	private final Coordinate coordinates;
 
 	@JsonCreator
-	public Point(@JsonProperty("coordinates") Coordinate coordinates) {
+	public Point(@JsonProperty("coordinates") Coordinate coordinates,
+				 @JsonProperty("bbox") BoundingBox bbox) {
+		super(bbox);
 		this.coordinates = coordinates;
 	}
 }

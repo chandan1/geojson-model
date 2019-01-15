@@ -16,7 +16,9 @@ public class LineString extends Geometry {
 	private final List<Coordinate> coordinates;
 	
 	@JsonCreator
-	public LineString(@JsonProperty("coordinates") List<Coordinate> coordinates) {
+	public LineString(@JsonProperty("coordinates") List<Coordinate> coordinates,
+					  @JsonProperty("bbox") BoundingBox bbox) {
+		super(bbox);
 		this.coordinates = coordinates;
 	}
 }

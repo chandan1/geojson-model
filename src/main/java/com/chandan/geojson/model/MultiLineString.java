@@ -19,7 +19,9 @@ public class MultiLineString extends Geometry {
     private final List<List<Coordinate>> coordinates;
 
     @JsonCreator
-    public MultiLineString(@JsonProperty("coordinates") List<List<Coordinate>> coordinates) {
+    public MultiLineString(@JsonProperty("coordinates") List<List<Coordinate>> coordinates,
+                           @JsonProperty("bbox") BoundingBox bbox) {
+        super(bbox);
         this.coordinates = coordinates;
     }
 }

@@ -1,6 +1,7 @@
 package com.chandan.geojson.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,23 +22,22 @@ import java.util.Map;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@Builder
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonSerialize
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Feature<T extends Geometry> extends GeoJson {
 
 	private final long id;
 	private final T geometry;
 	private final Map<String, Object> properties;
-	private final BoundingBox bbox;
 
 	@JsonCreator
 	public Feature(@JsonProperty("id") long id,
 				   @JsonProperty("geometry") T geometry,
 				   @JsonProperty("properties") Map<String, Object> properties,
 				   @JsonProperty("bbox") BoundingBox bbox) {
+		super(bbox);
 		this.id = id;
 		this.geometry = geometry;
 		this.properties = properties;
-		this.bbox = bbox;
 	}
 }

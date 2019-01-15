@@ -21,15 +21,15 @@ public class TestGeojsonModel {
 	
 	@Test
 	public void testPointSerde() throws Exception {
-		Point ser = new Point(new Coordinate(1.2, 2.3));
+		Point ser = new Point(new Coordinate(1.2, 2.3), null);
 		String json = new ObjectMapper().writeValueAsString(ser);
-		Point de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Point>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
 		Assert.assertEquals(ser, de);
 	}
 	
 	@Test
 	public void testFeatureLinestringSerde() throws Exception {
-		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
+		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)), null);
 		Map<String, Object> properties = new HashMap<String, Object>();
 		properties.put("startNodeId", 2);
 		properties.put("endNodId", 3);
@@ -38,50 +38,50 @@ public class TestGeojsonModel {
 		properties.put("name", "DSR Cosmos");
 		Feature<LineString> ser = new Feature<LineString>(1, lineString, properties, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
-		Feature<LineString> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<LineString>>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
 		Assert.assertEquals(ser, de);
 	}
 
 	@Test
 	public void testFeaturePointSerde() throws Exception {
-		Point point = new Point(new Coordinate(77.87, 12.78));
+		Point point = new Point(new Coordinate(77.87, 12.78), null);
 		Map<String, Object> properties = new HashMap<String, Object>();
 		properties.put("name", "way");
 		properties.put("amenity", "restaurant");
 		Feature<Point> ser = new Feature<Point>(1,point, properties, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
-		Feature<Point> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<Point>>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
 		Assert.assertEquals(ser, de);
 	}
 
 	@Test
 	public void testFeaturePointWithoutPropertiesSerde() throws Exception {
-		Feature<Point> ser = new Feature<Point>(1, new Point(new Coordinate(77.87, 12.78)), null, null);
+		Feature<Point> ser = new Feature<Point>(1, new Point(new Coordinate(77.87, 12.78), null), null, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
-		Feature<Point> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<Point>>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
 		Assert.assertEquals(ser, de);
 	}
 
 	@Test
 	public void testFeatureLinestringWithoutPropertiesSerde() throws Exception {
-		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
+		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)), null);
 		Feature<LineString> ser = new Feature<LineString>(1, lineString, null, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
-		Feature<LineString> de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Feature<LineString>>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
 		Assert.assertEquals(ser, de);
 	}
 
 	@Test
 	public void testFeatureCollectionWithLineStringPointSerdeWithProperties() throws Exception {
 
-		Point point = new Point(new Coordinate(77.87, 12.78));
+		Point point = new Point(new Coordinate(77.87, 12.78), null);
 		Map<String, Object> nodeProperties = new HashMap<String, Object>();
 		nodeProperties.put("name", "way");
 		nodeProperties.put("amenity", "restaurant");
 
 		Feature<Point> serPoint = new Feature<Point>(Long.MAX_VALUE, point, nodeProperties, null);
 
-		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
+		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)), null);
 		Map<String, Object> wayProperties = new HashMap<String, Object>();
 		wayProperties.put("startNodeId", 2);
 		wayProperties.put("endNodeId", 3);
@@ -95,31 +95,32 @@ public class TestGeojsonModel {
 		features.add(serPoint);
 		features.add(serLinestring);
 
-		FeatureCollection ser = new FeatureCollection(features);
+		FeatureCollection ser = new FeatureCollection(features, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
-		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
-		Assert.assertEquals(serPoint, de.getFeatures().get(0));
-		Assert.assertEquals(serLinestring, de.getFeatures().get(1));
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
+
+		Assert.assertEquals(serPoint, ((FeatureCollection)de).getFeatures().get(0));
+		Assert.assertEquals(serLinestring, ((FeatureCollection)de).getFeatures().get(1));
 	}
 
 	@Test
 	public void testFeatureCollectionWithLineStringPointSerdeWithoutProperties() throws Exception {
 
-		Point point = new Point(new Coordinate(77.87, 12.78));
+		Point point = new Point(new Coordinate(77.87, 12.78), null);
 		Feature<Point> serPoint = new Feature<Point>(1, point, null, null);
 
-		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
+		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)), null);
 		Feature<LineString> serLinestring = new Feature<LineString>(1, lineString, null, null);
 
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(serPoint);
 		features.add(serLinestring);
 
-		FeatureCollection ser = new FeatureCollection(features);
+		FeatureCollection ser = new FeatureCollection(features, null);
 		String json = new ObjectMapper().writeValueAsString(ser);
-		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
-		Assert.assertEquals(serPoint, de.getFeatures().get(0));
-		Assert.assertEquals(serLinestring, de.getFeatures().get(1));
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
+		Assert.assertEquals(serPoint, ((FeatureCollection)de).getFeatures().get(0));
+		Assert.assertEquals(serLinestring, ((FeatureCollection)de).getFeatures().get(1));
 	}
 
 	@Test
@@ -130,7 +131,7 @@ public class TestGeojsonModel {
 				new Coordinate(77.20, 12.20),
 				new Coordinate(77.80, 12.50),
 				new Coordinate(77.87, 12.78)));
-		Polygon polygon = new Polygon(coordinates);
+		Polygon polygon = new Polygon(coordinates,null);
 		Map<String, Object> polygonProperties = new HashMap<String, Object>();
 		polygonProperties.put("name", "name");
 		polygonProperties.put("building", "appartments");
@@ -138,10 +139,10 @@ public class TestGeojsonModel {
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(polygonFeature);
 
-		FeatureCollection ser = new FeatureCollection(features);
+		FeatureCollection ser = new FeatureCollection(features, null);
 
 		String json = new ObjectMapper().writeValueAsString(ser);
-		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
 		Assert.assertEquals(ser, de);
 	}
 
@@ -153,15 +154,15 @@ public class TestGeojsonModel {
 				new Coordinate(77.20, 12.20),
 				new Coordinate(77.80, 12.50),
 				new Coordinate(77.87, 12.78)));
-		Polygon polygon = new Polygon(coordinates);
+		Polygon polygon = new Polygon(coordinates, null);
 		Feature<Polygon> polygonFeature = new Feature<Polygon>(1, polygon, null, null);
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(polygonFeature);
 
-		FeatureCollection ser = new FeatureCollection(features);
+		FeatureCollection ser = new FeatureCollection(features, null);
 
 		String json = new ObjectMapper().writeValueAsString(ser);
-		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
 		Assert.assertEquals(ser, de);
 	}
 
@@ -176,7 +177,7 @@ public class TestGeojsonModel {
 						new Coordinate(77.87, 12.78)))
 		);
 
-		MultiPolygon multiPolygon = new MultiPolygon(coordinates);
+		MultiPolygon multiPolygon = new MultiPolygon(coordinates, null);
 
 		Map<String, Object> multiPolygonProperties = new HashMap<String, Object>();
 		multiPolygonProperties.put("name", "name");
@@ -186,10 +187,10 @@ public class TestGeojsonModel {
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(multiPolygonFeature);
 
-		FeatureCollection ser = new FeatureCollection(features);
+		FeatureCollection ser = new FeatureCollection(features, null);
 
 		String json = new ObjectMapper().writeValueAsString(ser);
-		FeatureCollection de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<FeatureCollection>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
 		Assert.assertEquals(ser, de);
 	}
 
@@ -204,15 +205,15 @@ public class TestGeojsonModel {
 						new Coordinate(77.87, 12.78)))
 		);
 
-		MultiPolygon multiPolygon = new MultiPolygon(coordinates);
+		MultiPolygon multiPolygon = new MultiPolygon(coordinates, null);
 		Feature<MultiPolygon> multiPolygonFeature = new Feature<MultiPolygon>(1, multiPolygon, null, null);
 		List<Feature<? extends Geometry>> features = new ArrayList<Feature<? extends Geometry>>();
 		features.add(multiPolygonFeature);
 
-		FeatureCollection ser = new FeatureCollection(features);
+		FeatureCollection ser = new FeatureCollection(features, null);
 
 		String json = new ObjectMapper().writeValueAsString(ser);
-		GeoJson de = new ObjectMapper().readValue(json.getBytes(), new TypeReference<GeoJson>() {});
+		GeoJson de = new ObjectMapper().readValue(json.getBytes(), GeoJson.class);
 		Assert.assertEquals(ser, de);
 	}
 
@@ -225,11 +226,11 @@ public class TestGeojsonModel {
 						new Coordinate(180.0, 90.0),
 						new Coordinate(-180.0f, 90.0),
 						new Coordinate(-180.0, -90.0)));
-		Polygon polygon = new Polygon(coordinates);
+		Polygon polygon = new Polygon(coordinates, null);
 		BoundingBox boundingBox = new BoundingBox(-180.0, -90.0, 180.0, 90.0);
 		Feature<Polygon> ser = new Feature<Polygon>(0, polygon, null, boundingBox);
 		String json = new ObjectMapper().writeValueAsString(ser);
-		Feature<Polygon> de = new ObjectMapper().readValue(json, new TypeReference<Feature<Polygon>>() {});
+		GeoJson de = new ObjectMapper().readValue(json, GeoJson.class);
 	}
 
 	@Test
@@ -267,7 +268,7 @@ public class TestGeojsonModel {
 				"  },\n" +
 				"  \"type\": \"Feature\"\n" +
 				"}";
-		Feature<Polygon> landPolygon = new ObjectMapper().readValue(json, new TypeReference<Feature<Polygon>>() {});
-		Assert.assertEquals(483450, landPolygon.getProperties().get("FID"));
+		GeoJson landPolygon = new ObjectMapper().readValue(json, GeoJson.class);
+		Assert.assertEquals(483450, ((Feature<Polygon>)landPolygon).getProperties().get("FID"));
 	}
 }

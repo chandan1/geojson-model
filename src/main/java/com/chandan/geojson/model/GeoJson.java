@@ -26,8 +26,10 @@ import lombok.ToString;
         @JsonSubTypes.Type(value = MultiLineString.class, name = "MultiLineString"),
         @JsonSubTypes.Type(value = MultiPolygon.class, name = "MultiPolygon"),
         @JsonSubTypes.Type(value = FeatureCollection.class, name = "FeatureCollection"),
-        @JsonSubTypes.Type(value = GeometryCollection.class, name = "GeometryCollection")
+        @JsonSubTypes.Type(value = GeometryCollection.class, name = "GeometryCollection"),
+        @JsonSubTypes.Type(value = Feature.class, name = "Feature")
 })
 public abstract class GeoJson {
 
+    private final BoundingBox bbox;
 }

@@ -19,7 +19,9 @@ public class MultiPoint extends Geometry {
     private final List<Point> coordinates;
 
     @JsonCreator
-    public MultiPoint(@JsonProperty("coordinates") List<Point> coordinatess) {
+    public MultiPoint(@JsonProperty("coordinates") List<Point> coordinatess,
+                      @JsonProperty("bbox") BoundingBox bbox) {
+        super(bbox);
         this.coordinates = coordinatess;
     }
 }

@@ -14,12 +14,14 @@ import java.util.List;
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class GeometryCollection extends GeoJson {
+public class GeometryCollection extends Geometry {
 
     private final List<Geometry> geometries;
 
     @JsonCreator
-    public GeometryCollection(@JsonProperty("geometries") List<Geometry> geometries) {
+    public GeometryCollection(@JsonProperty("geometries") List<Geometry> geometries,
+                              @JsonProperty("bbox") BoundingBox bbox) {
+        super(bbox);
         this.geometries = geometries;
     }
 }

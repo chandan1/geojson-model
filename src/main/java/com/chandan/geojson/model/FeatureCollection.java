@@ -19,7 +19,9 @@ public class FeatureCollection extends GeoJson {
     private final List<Feature<? extends Geometry>> features;
 
     @JsonCreator
-    public FeatureCollection(@JsonProperty("features") List<Feature<? extends Geometry>> features) {
+    public FeatureCollection(@JsonProperty("features") List<Feature<? extends Geometry>> features,
+                             @JsonProperty("bbox") BoundingBox bbox) {
+        super(bbox);
         this.features = features;
     }
 }
